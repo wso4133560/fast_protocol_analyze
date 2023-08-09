@@ -1,10 +1,9 @@
 %{
-#include "parser.tab.h"
+#include "parser.h"
+#include <stdlib.h>
 int start_space_count = 0;
 int line_count = 0;
 %}
-
-%option outfile="lex.c"
 
 %%
 ^[ ]+                           {
@@ -33,8 +32,16 @@ int line_count = 0;
                                     yylval.str = strndup(yytext, yyleng);
                                     return IDENTIFIER;
                                 }
-0x[0-9a-fA-F]+                  {return HEX;}
-[0-9]+                          {return NUM;};
+0x[0-9a-fA-F]+                  {
+                                    char *endPtr;
+                                    yylval.str = strndup(yytext, yyleng);
+                                    return HEX;
+                                }
+[0-9]+                          {
+                                    char *endPtr;
+                                    yylval.str = strndup(yytext, yyleng);
+                                    return NUM;
+                                }
 
 "("                             {return LBRACKET;}
 ")"                             {return RBRACKET;}
@@ -51,7 +58,11 @@ int line_count = 0;
 "&&"                            {return AND;}
 "||"                            {return OR;}
 "!"                             {return NOT;}
-
+"+"                             {return ADD;}
+"-"                             {return SUB;}
+"*"                             {return MUL;}
+"/"                             {return DIV;}
+"%"                             {return REM;}
 
 [ \t\r]+
 

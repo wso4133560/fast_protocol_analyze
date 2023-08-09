@@ -1,5 +1,5 @@
 # ipv4 script description
-pro IPV4 {
+pro IPV4:
     version(Version)                                  : bit(0, 4);
     headerlen(Header Length)                          : bit(4, 4);
     diffService(Differentiated Services Codepoint)    : byte(1);
@@ -37,4 +37,3 @@ pro IPV4 {
 
     if proto == 0x17:
         jump udp;
-}

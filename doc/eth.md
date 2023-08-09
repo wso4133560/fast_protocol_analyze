@@ -1,5 +1,5 @@
 # ethernet script description
-pro ETH {
+pro ETH:
     dst(Destination)    : byte(6);
     src(Source)         : byte(6);
     type(Type)          : byte(2);
@@ -10,4 +10,4 @@ pro ETH {
 
     if type == 0x0800:
         jump ipv4;
-}
+

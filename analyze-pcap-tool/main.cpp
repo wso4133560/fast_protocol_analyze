@@ -1,5 +1,11 @@
+extern "C" {
+    #include "../parser/parser.h"
+}
+#include "../parser/script_manager.hpp"
 #include <stdio.h>
 #include <pcap.h>
+
+extern FILE* yyin;
 
 void packet_handler(u_char *user_data, struct pcap_pkthdr *pkthdr, const u_char *packet)
 {
@@ -15,6 +21,17 @@ int main()
     struct pcap_pkthdr* header;
     const u_char *packet;
     const char *file_name = "/mnt/d/code/self-company/ipv4frags.pcap"; // 替换为你的pcap文件路径
+
+    FILE* fp = fopen("/mnt/d/code/self-company/fast_protocol_analyze/script/eth.fa", "r");
+    if (NULL == fp)
+    {
+        printf("Failed to open the file.\n");
+        return 1;
+    }
+
+    yyin = fp;
+    yyparse();
+    fclose(yyin);
 
     // 打开pcap文件
     handle = pcap_open_offline(file_name, errbuf);
